@@ -1,0 +1,212 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(circle at 20% 30%, #0a0f1e, #03060c);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', 'Poppins', 'Orbitron', 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    padding: 1.5rem;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Fundo animado com partículas líquidas */
+body::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at 40% 50%, rgba(70, 130, 200, 0.08), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: drift 18s infinite alternate;
+}
+
+@keyframes drift {
+    0% { transform: translate(0%, 0%) scale(1); opacity: 0.4; }
+    100% { transform: translate(5%, 3%) scale(1.2); opacity: 0.7; }
+}
+
+/* Container principal - forma amorfa única */
+.morph-calculator {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 540px;
+    background: rgba(15, 25, 45, 0.55);
+    backdrop-filter: blur(18px);
+    border-radius: 68% 32% 72% 28% / 42% 38% 62% 58%;
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(100, 210, 255, 0.2) inset, 0 0 20px rgba(0, 255, 255, 0.2);
+    padding: 1.6rem;
+    transition: border-radius 0.6s ease, box-shadow 0.4s;
+    animation: floatShape 8s infinite alternate ease-in-out;
+}
+
+@keyframes floatShape {
+    0% {
+        border-radius: 68% 32% 72% 28% / 42% 38% 62% 58%;
+        box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(100, 210, 255, 0.3) inset;
+    }
+    100% {
+        border-radius: 42% 58% 38% 62% / 58% 42% 58% 42%;
+        box-shadow: 0 35px 55px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(0, 255, 200, 0.5) inset;
+    }
+}
+
+/* Display único com efeito líquido */
+.display-panel {
+    background: rgba(0, 0, 0, 0.65);
+    border-radius: 48% 52% 42% 58% / 68% 38% 62% 32%;
+    padding: 1.2rem 1.8rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(0, 255, 255, 0.35);
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+    transition: all 0.3s;
+}
+
+.expression {
+    font-size: 1.2rem;
+    color: #9dd9ff;
+    font-family: 'Orbitron', monospace;
+    text-align: right;
+    min-height: 2rem;
+    letter-spacing: 1px;
+    word-break: break-word;
+    opacity: 0.85;
+    text-shadow: 0 0 3px cyan;
+}
+
+.result {
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: #f0fcff;
+    text-align: right;
+    font-family: 'Orbitron', monospace;
+    letter-spacing: 2px;
+    word-break: break-word;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+    line-height: 1.2;
+    transition: 0.1s;
+}
+
+/* Grade de botões com formato orgânico */
+.key-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem 1rem;
+}
+
+/* Cada botão terá uma forma orgânica completamente única */
+.key {
+    aspect-ratio: 1 / 0.9;
+    background: linear-gradient(145deg, rgba(30, 45, 70, 0.9), rgba(10, 20, 35, 0.95));
+    border: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #d6ecff;
+    font-family: 'Montserrat', 'Segoe UI', monospace;
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+/* Efeito ripple individual */
+.key::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(0, 255, 200, 0.5), transparent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s, opacity 0.4s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.key:active::after {
+    width: 120%;
+    height: 120%;
+    opacity: 0.6;
+}
+
+.key:active {
+    transform: scale(0.94);
+    background: linear-gradient(145deg, #1f3a60, #0e1a2c);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Botões especiais com brilho */
+.key[data-action="equals"] {
+    background: linear-gradient(135deg, #00b4aa, #007e7a);
+    color: white;
+    text-shadow: 0 0 4px black;
+    box-shadow: 0 0 12px #00ffff77;
+}
+
+.key[data-action="clear"], .key[data-action="backspace"] {
+    background: linear-gradient(145deg, #992d5e, #5e1e3c);
+    color: #ffdbdb;
+}
+
+.key[data-func="unary"] {
+    background: linear-gradient(145deg, #2c5780, #123a57);
+    color: #c4ecff;
+}
+
+/* Hover sofisticado */
+@media (hover: hover) {
+    .key:hover {
+        background: linear-gradient(145deg, #2d517c, #15273f);
+        color: white;
+        box-shadow: 0 0 12px rgba(0, 200, 255, 0.4);
+        transform: translateY(-2px);
+    }
+    .key[data-action="equals"]:hover {
+        background: linear-gradient(135deg, #0ed9cd, #02a39a);
+        box-shadow: 0 0 20px cyan;
+    }
+}
+
+/* responsividade */
+@media (max-width: 550px) {
+    .morph-calculator {
+        padding: 1rem;
+    }
+    .key-grid {
+        gap: 0.7rem;
+    }
+    .key {
+        font-size: 1.2rem;
+    }
+    .result {
+        font-size: 2.5rem;
+    }
+}
+
+/* rótulo de assinatura */
+.signature {
+    text-align: center;
+    margin-top: 1.2rem;
+    font-size: 0.7rem;
+    color: #6f9fcf;
+    letter-spacing: 2px;
+    opacity: 0.7;
+    font-family: monospace;
+}
